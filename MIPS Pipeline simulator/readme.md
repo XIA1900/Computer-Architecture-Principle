@@ -13,8 +13,8 @@ clock signal, i.e., the end of a cycle is followed immediately by the beginning 
 ## Functional Units:
 1. Instruction Fetch/Decode (IF): 
   Instruction Fetch/Decode unit can fetch and decode at most four instructions at each cycle (in program order). It should check all of the following conditions before it can fetch further instructions.
-  • If the fetch unit is stalled at the end of the last cycle, no instruction can be fetched at the current cycle. The fetch unit can be stalled due to a branch instruction in the waiting stage.
-  • If there is no empty slot in the pre-issue queue (Buf1) at the end of the last cycle, no instruction can be fetched at the current cycle.
+  - If the fetch unit is stalled at the end of the last cycle, no instruction can be fetched at the current cycle. The fetch unit can be stalled due to a branch instruction in the waiting stage.
+  - If there is no empty slot in the pre-issue queue (Buf1) at the end of the last cycle, no instruction can be fetched at the current cycle.
 
   Normally, the fetch-decode operation can be finished in 1 cycle. The decoded instruction will be placed in the Pre-issue queue (Buf1) before the end of the current cycle. If a branch instruction is fetched, the fetch unit will try to read all the necessary operands (from Register File) to calculate the target address. If all the operands are ready (or target is immediate), it will update PC before the end of the current cycle. Otherwise, the unit is stalled until the required operands are available. In other words, if operands are ready (or immediate target value) at the end of the last cycle, the branch does not introduce any penalty.
 
@@ -29,16 +29,16 @@ clock signal, i.e., the end of a cycle is followed immediately by the beginning 
 
 2. Issue Unit (IS): 
 Issue unit follows the basic Scoreboard algorithm to read operands from Register File and issues instructions when all the source operands are ready. It can issue up to six instructions out-of-order per cycle. Please note that it can issue up to two instructions to each of the output queues (Buf2, Buf3, and Buf4) in each cycle. Please see the description of these queues to understand what type of instructions can be issued to them. When an instruction is issued, it is removed from the Buf1 before the end of the current cycle. The issue unit searches from entry 0 to entry 7 (in that order) of Buf1 and issues instructions if:
-  • No RAW hazards.
-  • No structural hazards (the corresponding output queue should have empty slots at the beginning of the current
+  - No RAW hazards.
+  - No structural hazards (the corresponding output queue should have empty slots at the beginning of the current
 cycle). The issue unit does not speculate whether there will be an empty slot at the end of the current cycle.
-  • No WAW hazards with active instructions (issued but not finished, or earlier not-issued instructions).
-  • If two instructions are issued in a cycle, you need to make sure that there are no WAW or WAR hazards
+  - No WAW hazards with active instructions (issued but not finished, or earlier not-issued instructions).
+  - If two instructions are issued in a cycle, you need to make sure that there are no WAW or WAR hazards
 between them.
-  • No WAR hazards with earlier not-issued instructions.
-  • For LW/SW instructions, all the source registers are ready at the end of the last cycle.
-  • The load instruction must wait until all the previous stores are issued.
-  • The stores must be issued in order.
+  - No WAR hazards with earlier not-issued instructions.
+  - For LW/SW instructions, all the source registers are ready at the end of the last cycle.
+  - The load instruction must wait until all the previous stores are issued.
+  - The stores must be issued in order.
 
 
 3. ALU1: 
