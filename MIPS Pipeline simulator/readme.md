@@ -69,29 +69,29 @@ This unit executes the last stage of a pipelined MUL instruction. It can fetch o
 WB unit can execute up to three writebacks (up to one from each of its input queues) in one cycle, and removes them from its input queues. WB updates the Register File based on the content of its input queues. The update is finished before the end of the current cycle. The new values will be available at the beginning of the next cycle.
 
 ## Storage Locations (Queues/PC/Registers):
-Pre-Issue Queue (Buf1): 
+- Pre-Issue Queue (Buf1): 
     It has 8 entries - each one can store one instruction. The instructions are sorted by their program order, the entry 0 always contains the oldest instruction and the entry 7 contains the newest instruction. 
-Pre-ALU1 Queue (Buf2): 
+- Pre-ALU1 Queue (Buf2): 
     The issue unit can send only LW and SW instructions to this queue. It has two entries. Each entry can store one instruction with its operands. The queue is managed as FIFO (in-order) queue.
-Pre-ALU2 Queue (Buf3): 
+- Pre-ALU2 Queue (Buf3): 
     The issue unit issues the following instructions to this queue: (ADD, SUB, AND, OR, SRL, SRA, ADDI, ANDI, ORI, MFHI, MFLO). It has two entries. Each entry can store one instruction with its operands. The queue is managed as FIFO (in-order) queue.
-Pre-MUL1 Queue (Buf4): 
+- Pre-MUL1 Queue (Buf4): 
     The issue unit can send only MUL instruction to this queue. It has two entries. Each entry can store one instruction with its operands. The queue is managed as FIFO (in-order) queue.
-Pre-MEM Queue (Buf5): 
+- Pre-MEM Queue (Buf5): 
     This queue has one entry. This entry can store one memory instruction. 
-Pre-ALU2 Queue (Buf6): 
+- Pre-ALU2 Queue (Buf6): 
     This queue has one entry. This entry can store the result and destination register.
-Pre-MUL2 Queue (Buf7): 
+- Pre-MUL2 Queue (Buf7): 
     This queue has one entry. This entry can store one multiply instruction.
-Post-MEM Queue (Buf8): 
+- Post-MEM Queue (Buf8): 
     This queue has one entry. This entry contains load value and destination register.
-Pre-MUL3 Queue (Buf9): 
+- Pre-MUL3 Queue (Buf9): 
     This queue has one entry. This entry can store one multiply instruction.
-Post-MUL3 Queue (Buf10): 
+- Post-MUL3 Queue (Buf10): 
     This queue has one entry. This entry can store the multiplication result and destination register.
-Program Counter (PC): 
+- Program Counter (PC): 
     It records the address of the next instruction to fetch. It should be initialized to 260.
-Register File: 
+- Register File: 
     There are 32 registers. Assume that there are sufficient read/write ports to support all kinds of read/write operations from different functional units. Fetch unit reads Register File for branch instruction with register operands whereas Issue unit reads Register File for any non-branch instructions with register operands.
 
 
