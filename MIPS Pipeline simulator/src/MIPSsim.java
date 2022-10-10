@@ -313,10 +313,11 @@ public class MIPSsim {
                             r2 = Integer.valueOf(operands[1].substring(1));
                             r3 = Integer.valueOf(operands[2].substring(1));
                             if(operation.equals("MUL") && space3 > 0) {
+                                //R1 is not used and R2 R3 are not used or only read
                                 if(registers_state[r1] == 0 && registers_state[r2] < 2 && registers_state[r3] < 2) {
-                                    registers_state[r2] = 1;  //
-                                    registers_state[r3] = 1;  //
-                                    registers_state[r1] = 2;
+                                    registers_state[r2] = 1;  // read
+                                    registers_state[r3] = 1;  // read
+                                    registers_state[r1] = 2;  // write
                                     buf[0].remove(id);
                                     buf[3].offer(inst);
                                     id--;
@@ -325,10 +326,10 @@ public class MIPSsim {
                                     space3--;
                                 }
                                 else {
-                                    if(registers_state[r2] == 0) registers_state[r2] = 1;
+                                    if(registers_state[r2] == 0) registers_state[r2] = 1; //0 means not used
                                     if(registers_state[r3] == 0) registers_state[r3] = 1;
 
-                                    if(registers_state[r1] == 1) registers_state[r1] = 4;
+                                    if(registers_state[r1] == 1) registers_state[r1] = 4; //r1 is WAR
                                     else if(registers_state[r1] == 0) registers_state[r1] = 3;
                                 }
                             }
